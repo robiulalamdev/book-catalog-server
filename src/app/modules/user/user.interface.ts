@@ -8,3 +8,12 @@ export type IUser = {
   address: string;
   profileImg: string;
 };
+
+export type IUserSigninResponse = {
+  token: string;
+};
+
+export type IUserSignin = {
+  email: string;
+  password: string;
+};

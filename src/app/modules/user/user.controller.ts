@@ -17,6 +17,17 @@ const create = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const sginin = catchAsync(async (req: Request, res: Response) => {
+  const { token } = await UserService.signin(req.body);
+  res.status(200).json({
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User signin successfully!',
+    token: token,
+  });
+});
+
 export const UserController = {
   create,
+  sginin,
 };
