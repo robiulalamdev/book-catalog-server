@@ -11,14 +11,15 @@ datasource db {
 }
 
 model User {
-  id         String @id @default(uuid())
-  name       String
-  email      String @unique
-  password   String
-  role       String // 'admin' or 'customer'
-  contactNo  String
-  address    String
-  profileImg String
+  id              String            @id @default(uuid())
+  name            String
+  email           String            @unique
+  password        String
+  role            String // 'admin' or 'customer'
+  contactNo       String
+  address         String
+  profileImg      String
+  ReviewAndRating ReviewAndRating[]
 
   @@map("user")
 }
@@ -39,8 +40,21 @@ model Book {
   genre           String
   publicationDate DateTime
 
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String
+  category        Category          @relation(fields: [categoryId], references: [id])
+  categoryId      String
+  ReviewAndRating ReviewAndRating[]
 
   @@map("book")
+}
+
+model ReviewAndRating {
+  id     String @id @default(uuid())
+  review String
+  rating Int
+  userId String // UUID of the user who submitted the review
+  bookId String // UUID of the book being reviewed
+  user   User   @relation(fields: [userId], references: [id])
+  book   Book   @relation(fields: [bookId], references: [id])
+
+  @@map("reviewAndRating")
 }
