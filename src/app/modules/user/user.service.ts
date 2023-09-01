@@ -14,6 +14,17 @@ const create = async (data: User): Promise<User> => {
   return result;
 };
 
+const login = async (data: User): Promise<User> => {
+  data.password = await bcrypt.hash(
+    data.password,
+    Number(config.bycrypt_salt_rounds)
+  );
+  const result = await prisma.user.create({
+    data,
+  });
+  return result;
+};
+
 const getSingle = async (id: string): Promise<User | null> => {
   const result = await prisma.user.findUnique({
     where: {
@@ -55,4 +66,5 @@ export const UserService = {
   getAll,
   update,
   deleteSingle,
+  login,
 };
