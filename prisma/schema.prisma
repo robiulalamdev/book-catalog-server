@@ -26,6 +26,21 @@ model User {
 model Category {
   id    String @id @default(uuid())
   title String
+  Book  Book[]
 
   @@map("category")
+}
+
+model Book {
+  id              String   @id @default(uuid())
+  title           String
+  author          String
+  price           Float
+  genre           String
+  publicationDate DateTime
+
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+
+  @@map("book")
 }
