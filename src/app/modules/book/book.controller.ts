@@ -27,12 +27,16 @@ const getAll = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllByCate = catchAsync(async (req: Request, res: Response) => {
-  const result = await BookService.getAllByCate(req.params.categoryId);
-  sendResponse<Book[]>(res, {
+  const result = await BookService.getAllByCate(
+    req.params.categoryId,
+    req.query
+  );
+  sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
     message: 'Books with associated category data fetched successfully',
-    data: result,
+    meta: result.meta,
+    data: result.data,
   });
 });
 

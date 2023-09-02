@@ -56,8 +56,21 @@ const getAll = async (
   };
 };
 
-const getAllByCate = async (cateId: string): Promise<Book[]> => {
+const getAllByCate = async (
+  cateId: string,
+  options: IPaginationOptions
+): Promise<IGenericResponse<Book[]>> => {
+  const page = Number(options.page || 1);
+  const limit = Number(options.limit || 10);
+  const skip = (page - 1) * limit;
+  const sortBy = options.sortBy || 'price';
+  const sortOrder = options.sortOrder || 'desc';
   const result = await prisma.book.findMany({
+    take: limit,
+    skip: skip,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
     where: {
       categoryId: cateId,
     },
@@ -65,7 +78,17 @@ const getAllByCate = async (cateId: string): Promise<Book[]> => {
       category: true,
     },
   });
-  return result;
+  const total = await prisma.book.count();
+  const totalPage = Math.ceil(total / limit);
+  return {
+    meta: {
+      page,
+      size: limit,
+      total,
+      totalPage,
+    },
+    data: result,
+  };
 };
 
 const update = async (id: string, Payload: Partial<Book>): Promise<Book> => {
