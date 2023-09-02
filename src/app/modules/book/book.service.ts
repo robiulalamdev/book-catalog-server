@@ -5,9 +5,7 @@ const create = async (data: Book): Promise<Book> => {
   const result = await prisma.book.create({
     data,
   });
-  console.log(result);
-  // const result = {};
-  // return result;
+  return result;
 };
 
 const getSingle = async (id: string): Promise<Book | null> => {
