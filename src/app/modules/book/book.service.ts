@@ -1,4 +1,6 @@
 import { Book, PrismaClient } from '@prisma/client';
+import { IGenericResponse } from '../../../interfaces/common';
+import { IPaginationOptions } from '../../../interfaces/pagination';
 const prisma = new PrismaClient();
 
 const create = async (data: Book): Promise<Book> => {
@@ -23,13 +25,35 @@ const getSingle = async (id: string): Promise<Book | null> => {
   return result;
 };
 
-const getAll = async (): Promise<Book[]> => {
+const getAll = async (
+  options: IPaginationOptions
+): Promise<IGenericResponse<Book[]>> => {
+  const page = Number(options.page || 1);
+  const limit = Number(options.limit || 10);
+  const skip = (page - 1) * limit;
+  const sortBy = options.sortBy || 'price';
+  const sortOrder = options.sortOrder || 'desc';
   const result = await prisma.book.findMany({
+    take: limit,
+    skip: skip,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
     include: {
       category: true,
     },
   });
-  return result;
+  const total = await prisma.book.count();
+  const totalPage = Math.ceil(total / limit);
+  return {
+    meta: {
+      page,
+      size: limit,
+      total,
+      totalPage,
+    },
+    data: result,
+  };
 };
 
 const getAllByCate = async (cateId: string): Promise<Book[]> => {

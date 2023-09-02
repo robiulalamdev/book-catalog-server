@@ -16,12 +16,13 @@ const create = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAll = catchAsync(async (req: Request, res: Response) => {
-  const result = await BookService.getAll();
-  sendResponse<Book[]>(res, {
+  const result = await BookService.getAll(req.query);
+  sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
     message: 'Books fetched successfully',
-    data: result,
+    meta: result.meta,
+    data: result.data,
   });
 });
 
