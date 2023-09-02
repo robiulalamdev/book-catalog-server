@@ -1,36 +1,43 @@
 import { PrismaClient, User } from '@prisma/client';
+import { IUser } from '../auth/auth.interface';
+import { selectUserFields } from '../auth/auth.utils';
 const prisma = new PrismaClient();
 
-const getSingle = async (id: string): Promise<User | null> => {
+const getSingle = async (id: string): Promise<IUser | null> => {
   const result = await prisma.user.findUnique({
     where: {
       id: id,
     },
+    select: selectUserFields(),
   });
   return result;
 };
 
-const getAll = async (): Promise<User[]> => {
-  const result = await prisma.user.findMany({});
+const getAll = async (): Promise<IUser[]> => {
+  const result = await prisma.user.findMany({
+    select: selectUserFields(),
+  });
   return result;
 };
 
-const update = async (id: string, Payload: Partial<User>): Promise<User> => {
+const update = async (id: string, Payload: Partial<User>): Promise<IUser> => {
   const result = await prisma.user.update({
     where: {
       id: id,
     },
     data: Payload,
+    select: selectUserFields(),
   });
 
   return result;
 };
 
-const deleteSingle = async (id: string): Promise<User> => {
+const deleteSingle = async (id: string): Promise<IUser> => {
   const result = await prisma.user.delete({
     where: {
       id: id,
     },
+    select: selectUserFields(),
   });
   return result;
 };

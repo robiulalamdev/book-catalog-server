@@ -16,4 +16,4 @@ router.post(
   AuthController.sginin
 );
 
-export const UserRoutes = router;
+export const AuthRoutes = router;

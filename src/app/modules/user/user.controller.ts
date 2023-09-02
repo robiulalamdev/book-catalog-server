@@ -17,12 +17,12 @@ const getAll = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getSingle = catchAsync(async (req: Request, res: Response) => {
-  const { password, ...others } = await UserService.getSingle(req.params.id);
+  const result = await UserService.getSingle(req.params.id);
   sendResponse<IUser>(res, {
     success: true,
     statusCode: httpStatus.OK,
     message: 'User retrieved successfully',
-    data: others,
+    data: result,
   });
 });
 
