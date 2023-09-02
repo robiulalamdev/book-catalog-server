@@ -16,6 +16,8 @@ router.post(
 router.get('/', BookController.getAll);
 router.get('/:id', BookController.getSingle);
 
+router.get('/:categoryId/category', BookController.getAllByCate);
+
 router.patch(
   '/:id',
   auth(ENUM_USER_ROLE.ADMIN),

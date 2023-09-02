@@ -25,6 +25,16 @@ const getAll = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllByCate = catchAsync(async (req: Request, res: Response) => {
+  const result = await BookService.getAllByCate(req.params.categoryId);
+  sendResponse<Book[]>(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Books with associated category data fetched successfully',
+    data: result,
+  });
+});
+
 const getSingle = catchAsync(async (req: Request, res: Response) => {
   const result = await BookService.getSingle(req.params.id);
   sendResponse<Book>(res, {
@@ -58,6 +68,7 @@ const deleteSingle = catchAsync(async (req: Request, res: Response) => {
 export const BookController = {
   create,
   getAll,
+  getAllByCate,
   getSingle,
   update,
   deleteSingle,
