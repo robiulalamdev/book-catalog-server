@@ -7,13 +7,12 @@ import { AuthService } from './auth.service';
 import { IUser } from './auth.interface';
 
 const create = catchAsync(async (req: Request, res: Response) => {
-  // eslint-disable-next-line no-unused-vars
-  const { password, ...responseData } = await AuthService.create(req.body);
+  const result = await AuthService.create(req.body);
   sendResponse<IUser>(res, {
     success: true,
     statusCode: httpStatus.OK,
     message: 'Users created successfully',
-    data: responseData,
+    data: result,
   });
 });
 

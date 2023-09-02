@@ -1,4 +1,3 @@
-import { User } from '@prisma/client';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
@@ -8,7 +7,7 @@ import { UserService } from './user.service';
 
 const getAll = catchAsync(async (req: Request, res: Response) => {
   const result = await UserService.getAll();
-  sendResponse<User[]>(res, {
+  sendResponse<IUser[]>(res, {
     success: true,
     statusCode: httpStatus.OK,
     message: 'Users retrieved successfully',

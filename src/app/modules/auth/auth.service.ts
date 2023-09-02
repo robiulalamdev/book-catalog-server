@@ -5,16 +5,18 @@ import { Secret } from 'jsonwebtoken';
 import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
-import { IUserSignin, IUserSigninResponse } from './auth.interface';
+import { IUser, IUserSignin, IUserSigninResponse } from './auth.interface';
+import { selectUserFields } from './auth.utils';
 const prisma = new PrismaClient();
 
-const create = async (data: User): Promise<User> => {
+const create = async (data: User): Promise<IUser> => {
   data.password = await bcrypt.hash(
     data.password,
     Number(config.bycrypt_salt_rounds)
   );
   const result = await prisma.user.create({
     data,
+    select: selectUserFields(),
   });
   return result;
 };
@@ -25,7 +27,6 @@ const signin = async (data: IUserSignin): Promise<IUserSigninResponse> => {
       email: data.email,
     },
   });
-  console.log(isUserExist);
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
   }
