@@ -13,12 +13,19 @@ const getSingle = async (id: string): Promise<Category | null> => {
     where: {
       id: id,
     },
+    include: {
+      Book: true,
+    },
   });
   return result;
 };
 
 const getAll = async (): Promise<Category[]> => {
-  const result = await prisma.category.findMany({});
+  const result = await prisma.category.findMany({
+    include: {
+      Book: true,
+    },
+  });
   return result;
 };
 

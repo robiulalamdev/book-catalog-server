@@ -20,7 +20,7 @@ const getAll = catchAsync(async (req: Request, res: Response) => {
   sendResponse<Category[]>(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: 'Categories retrieved successfully',
+    message: 'Categories fetched successfully',
     data: result,
   });
 });

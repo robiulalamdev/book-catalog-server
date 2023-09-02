@@ -20,7 +20,7 @@ model User {
   address         String
   profileImg      String
   ReviewAndRating ReviewAndRating[]
-  Order           Order[]
+  orders          Order[]
 
   @@map("user")
 }
@@ -28,7 +28,7 @@ model User {
 model Category {
   id    String @id @default(uuid())
   title String
-  Book  Book[]
+  books Book[]
 
   @@map("category")
 }
@@ -41,9 +41,9 @@ model Book {
   genre           String
   publicationDate DateTime
 
-  category        Category          @relation(fields: [categoryId], references: [id])
-  categoryId      String
-  ReviewAndRating ReviewAndRating[]
+  category         Category          @relation(fields: [categoryId], references: [id])
+  categoryId       String
+  reviewAndRatings ReviewAndRating[]
 
   @@map("book")
 }
