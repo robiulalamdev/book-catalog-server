@@ -5,6 +5,16 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { CategoryService } from './category.service';
 
+const create = catchAsync(async (req: Request, res: Response) => {
+  const result = await CategoryService.create(req.body);
+  sendResponse<Category>(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Categories Create successfully',
+    data: result,
+  });
+});
+
 const getAll = catchAsync(async (req: Request, res: Response) => {
   const result = await CategoryService.getAll();
   sendResponse<Category[]>(res, {
@@ -46,6 +56,7 @@ const deleteSingle = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const CategoryController = {
+  create,
   getAll,
   getSingle,
   update,
