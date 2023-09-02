@@ -13,7 +13,12 @@ router.post(
   OrderController.create
 );
 
-// router.get('/', BookController.getAll);
+router.get(
+  '/',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.CUSTOMER),
+  OrderController.getAll
+);
+
 // router.get('/:id', BookController.getSingle);
 
 // router.get('/:categoryId/category', BookController.getAllByCate);

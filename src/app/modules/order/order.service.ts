@@ -1,4 +1,6 @@
 import { Order, PrismaClient } from '@prisma/client';
+import httpStatus from 'http-status';
+import ApiError from '../../../errors/ApiError';
 const prisma = new PrismaClient();
 
 const create = async (data: any): Promise<Order> => {
@@ -8,6 +10,22 @@ const create = async (data: any): Promise<Order> => {
   return result;
 };
 
+const getAll = async (role: string, id: string): Promise<Order[]> => {
+  if (role === 'admin') {
+    const result = await prisma.order.findMany({});
+    return result;
+  } else if (role === 'customer') {
+    const result = await prisma.order.findMany({
+      where: {
+        userId: id,
+      },
+    });
+    return result;
+  }
+  throw new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized');
+};
+
 export const OrderService = {
   create,
+  getAll,
 };
