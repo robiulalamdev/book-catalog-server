@@ -25,15 +25,4 @@ router.get(
   OrderController.getSingle
 );
 
-// router.get('/:categoryId/category', BookController.getAllByCate);
-
-// router.patch(
-//   '/:id',
-//   auth(ENUM_USER_ROLE.ADMIN),
-//   validateRequest(BookValidation.update),
-//   BookController.update
-// );
-
-// router.delete('/:id', auth(ENUM_USER_ROLE.ADMIN), BookController.deleteSingle);
-
 export const OrderRoutes = router;
