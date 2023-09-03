@@ -27,7 +27,23 @@ const getAll = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getSingle = catchAsync(async (req: Request, res: Response) => {
+  const role = req?.user?.role;
+  const result = await OrderService.getSingle(
+    req.params.orderId,
+    role,
+    req.user?.id
+  );
+  sendResponse<Order>(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Order retrieved successfully',
+    data: result,
+  });
+});
+
 export const OrderController = {
   create,
   getAll,
+  getSingle,
 };

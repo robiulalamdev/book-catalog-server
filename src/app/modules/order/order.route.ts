@@ -19,7 +19,11 @@ router.get(
   OrderController.getAll
 );
 
-// router.get('/:id', BookController.getSingle);
+router.get(
+  '/:orderId',
+  auth(ENUM_USER_ROLE.CUSTOMER, ENUM_USER_ROLE.ADMIN),
+  OrderController.getSingle
+);
 
 // router.get('/:categoryId/category', BookController.getAllByCate);
 
