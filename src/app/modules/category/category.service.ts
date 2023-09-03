@@ -14,7 +14,7 @@ const getSingle = async (id: string): Promise<Category | null> => {
       id: id,
     },
     include: {
-      Book: true,
+      books: true,
     },
   });
   return result;
@@ -23,7 +23,7 @@ const getSingle = async (id: string): Promise<Category | null> => {
 const getAll = async (): Promise<Category[]> => {
   const result = await prisma.category.findMany({
     include: {
-      Book: true,
+      books: true,
     },
   });
   return result;
