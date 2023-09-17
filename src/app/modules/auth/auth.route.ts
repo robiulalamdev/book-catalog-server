@@ -11,7 +11,7 @@ router.post(
   AuthController.create
 );
 router.post(
-  '/signing',
+  '/signin',
   validateRequest(AuthValidation.signing),
   AuthController.sginin
 );
